@@ -35,8 +35,8 @@
 			<option value="1">Enabled</option>
 			<option value="0">Disabled</option>
 		</param>	
-		<param name="twitter_account" type="text" size="20" default="phproberto" label="Twitter Account Name" description="This user will be @ mentioned in the suggested Tweet" />	
-		<param name="twitter_account2" type="text" size="20" default="roberto_segura" label="Related Twitter Account Name" description="" />	
+		<param name="twitter_account" type="text" size="20" default="" label="Twitter Account Name" description="This user will be @ mentioned in the suggested Tweet" />	
+		<param name="twitter_account2" type="text" size="20" default="" label="Related Twitter Account Name" description="" />	
 		<param name="count" type="list" default="horizontal" label="Tweet Button Style" description="">
 			<option value="horizontal">Horizontal Count</option>
 			<option value="vertical">Vertical Count</option>
