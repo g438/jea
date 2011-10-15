@@ -43,9 +43,8 @@ class plgJeaSocial extends JPlugin
     function plgJeaSocial( &$subject, $params )
     {
         parent::__construct( $subject, $params );
-        global $mainframe;
+        // load plugin parameters
         $plugin =& JPluginHelper::getPlugin('jea', 'social');
-        $like = '';  $retweet = '';  $buzz = '';  $digg = '';
         $this->_params = new JParameter( $plugin->params );
         $this->_position = ($this->_params->get('position'));
     }
@@ -85,7 +84,7 @@ class plgJeaSocial extends JPlugin
         // ensure that constructor got the plugin params
         if (!is_null($this->_params) && !empty($row->id)) {
             // initialize empty vars
-            $like = '';  $retweet = '';  $buzz = '';  $digg = '';
+            $like = '';  $twitter = '';  $gplus = '';  $digg = ''; $linkedin = '';
 
             // build the property url
             $uri =& JFactory::getURI();
@@ -94,19 +93,51 @@ class plgJeaSocial extends JPlugin
             $url2 = urlencode($url);
             // facebook             
             if ($this->_params->get('like')) {
-                $like = '<div class="faceandtweet_like" style="float:'.$this->_params->get('float').'; width:'.$this->_params->get('like_width').'px; height:'.$this->_params->get('like_height').'px;"><iframe src="http://www.facebook.com/plugins/like.php?href='.$url2 .'&amp;layout='.$this->_params->get('like_style').'&amp;width='.$this->_params->get('like_width').'&amp;show_faces=false&amp;action='.$this->_params->get('like_verb').'&amp;colorscheme='.$this->_params->get('like_color_scheme').'&amp;height='.$this->_params->get('like_height').'" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:'.$this->_params->get('like_width').'px; height:'.$this->_params->get('like_height').'px;" allowTransparency="true"></iframe></div>';                
+                $like = '<div class="jeasocial_button jeasocial_facebook" style="float:'.$this->_params->get('float').'; width:'.$this->_params->get('like_width').'px; height:'.$this->_params->get('like_height').'px;"><iframe src="http://www.facebook.com/plugins/like.php?href='.$url2 .'&amp;layout='.$this->_params->get('like_style').'&amp;width='.$this->_params->get('like_width').'&amp;show_faces=false&amp;action='.$this->_params->get('like_verb').'&amp;colorscheme='.$this->_params->get('like_color_scheme').'&amp;height='.$this->_params->get('like_height').'" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:'.$this->_params->get('like_width').'px; height:'.$this->_params->get('like_height').'px;" allowTransparency="true"></iframe></div>';                
             }
             // twitter
-            if ($this->_params->get('retweet')) {
-                $retweet = '<div class="faceandtweet_retweet" style="float:'.$this->_params->get('float').'; width:'.$this->_params->get('count-width').'px;"><a href="http://twitter.com/share?url='.$url2.'" class="twitter-share-button" data-text="'.$row->title.':" data-count="'.$this->_params->get('count').'" data-via="'.$this->_params->get('twitter_account').'" data-related="'.$this->_params->get('twitter_account2').'">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script></div>';
+            if ($this->_params->get('twitter_active')) {
+                // assign div with based on button style
+                if ( $this->_params->get('twitter_style') == 'horizontal') {
+                    $twitter_div_width = 110;
+                } else {
+                    $twitter_div_width = 70;
+                }           
+                $twitter = '<div class="jeasocial_button jeasocial_twitter" style="float:'.$this->_params->get('float').'; width:'.$twitter_div_width.'px;">';
+                    $twitter .= '<a href="http://twitter.com/share?url='.$url2.'" class="twitter-share-button" data-text="'.$row->title.':" data-count="'.$this->_params->get('twitter_style').'" data-via="'.$this->_params->get('twitter_account').'" data-related="'.$this->_params->get('twitter_account2').'">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>';
+                $twitter .= '</div>';
             }
-            // buzz
-            if ($this->_params->get('buzz')) {
-                $buzz = '<div class="faceandtweet_retweet" style="float:'.$this->_params->get('float').'; width:110px;"><a title="'.$row->title.'" class="google-buzz-button" href="http://www.google.com/buzz/post" data-button-style="small-count"></a><script type="text/javascript" src="http://www.google.com/buzz/api/button.js"></script></div>';  
+            // google+
+            if ($this->_params->get('gplus_active')) {
+                $size_attribute = 'size="'.$this->_params->get('gplus_style').'"'; 
+                // assign div with based on button style
+                switch ($this->_params->get('gplus_style')) {
+                    case 'small':
+                        $gplus_div_width = 65;
+                        break;
+                    case 'medium':
+                        $gplus_div_width = 75;
+                        break;
+                    case 'tall':
+                        $gplus_div_width = 65;
+                        break;
+                    // standard size
+                    default:
+                        $gplus_div_width = 80;
+                        $size_attribute = null;
+                        break;
+                }
+                $gplus = '<div class="jeasocial_button jeasocial_gplus" style="float:'.$this->_params->get('float').'; width:'.$gplus_div_width.'px;">';
+                $gplus .= '<script type="text/javascript" src="https://apis.google.com/js/plusone.js">
+								{lang: "es"}
+								</script>
+                				'; 
+                $gplus .= '<g:plusone '.$size_attribute.' href="'.$url2.'"></g:plusone>';  
+                $gplus .= '</div>';
             }
             // digg
-            if ($this->_params->get('digg')) {
-                $digg = '<div class="faceandtweet_retweet" style="float:'.$this->_params->get('float').'; width:110px;">';
+            if ($this->_params->get('digg_active')) {
+                $digg = '<div class="jeasocial_button jeasocial_digg" style="float:'.$this->_params->get('float').'; width:90px;">';
                 $digg .= '<script type="text/javascript">
                                 (function() {
                                 var s = document.createElement("SCRIPT"), s1 = document.getElementsByTagName("SCRIPT")[0];
@@ -119,10 +150,23 @@ class plgJeaSocial extends JPlugin
                 $digg .= '<a class="DiggThisButton DiggCompact"
             href="http://digg.com/submit?url='.$url2.'&amp;title='.$row->title.'"></a></div>';
             }
+            // linkedin 
+            if ($this->_params->get('linkedin_active')) {
+                if ( $this->_params->get('linkedin_style') == 'right') {
+                    $linkedin_div_width = 110;
+                } else {
+                    $linkedin_div_width = 75;
+                }
+                $linkedin = '<div class="jeasocial_button jeasocial_linkedin" style="float:'.$this->_params->get('float').'; width: '.$linkedin_div_width.'px;">';
+                $linkedin .= '<script src="http://platform.linkedin.com/in.js" type="text/javascript"></script>
+										<script type="IN/Share" data-url="'.$url2.'" data-counter="'.$this->_params->get('linkedin_style').'"></script>
+                						';
+                $linkedin .= '</div>';
+            }
             // complete content
-            $bar = $retweet . $like . $buzz . $digg;
+            $bar = $twitter . $like . $gplus . $digg . $linkedin;
             // format content
-            $bar = '<div class="faceandtweet">'.$bar.'<div style="clear:both;"></div></div>';
+            $bar = '<div class="jeasocial">'.$bar.'<div style="clear:both;"></div></div>';
             echo $bar;
         } 
     }
