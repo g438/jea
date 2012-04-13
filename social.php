@@ -15,7 +15,7 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
 jimport('joomla.event.plugin');
-JPlugin::loadLanguage('plg_jea_fields', JPATH_ADMINISTRATOR);
+//JPlugin::loadLanguage('plg_jea_fields', JPATH_ADMINISTRATOR);
 
 /**
  * Plugin JEA Social
@@ -45,7 +45,7 @@ class plgJeaSocial extends JPlugin
         parent::__construct( $subject, $params );
         // load plugin parameters
         $plugin =& JPluginHelper::getPlugin('jea', 'social');
-        $this->_params = new JParameter( $plugin->params );
+        $this->_params = new JRegistry($params['params']);
         $this->_position = ($this->_params->get('position'));
     }
 
@@ -88,14 +88,15 @@ class plgJeaSocial extends JPlugin
 
             // build the property url
             $uri =& JFactory::getURI();
+            $row->slug = $row->alias ? ($row->id . ':' . $row->alias) : $row->id;
             $url = $uri->toString(array('scheme','host', 'port')).JRoute::_('index.php?option=com_jea&view=properties&id='.$row->slug);
 
             $url2 = urlencode($url);
-            // facebook             
+            // facebook
             if ($this->_params->get('like')) {
                 $like = '<div id="fb-root" class="jeasocial_button jeasocial_facebook" style="float:'.$this->_params->get('float').'; width:'.$this->_params->get('like_width').'px; height:'.$this->_params->get('like_height').'px;">';
                     $like .= '<iframe src="http://www.facebook.com/plugins/like.php?href='.$url2 .'&amp;layout='.$this->_params->get('like_style').'&amp;width='.$this->_params->get('like_width').'&amp;show_faces=false&amp;action='.$this->_params->get('like_verb').'&amp;colorscheme='.$this->_params->get('like_color_scheme').'&amp;height='.$this->_params->get('like_height').'" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:'.$this->_params->get('like_width').'px; height:'.$this->_params->get('like_height').'px;" allowTransparency="true"></iframe>';
-                $like .= '</div>';                
+                $like .= '</div>';
             }
             // twitter
             if ($this->_params->get('twitter_active')) {
@@ -104,14 +105,14 @@ class plgJeaSocial extends JPlugin
                     $twitter_div_width = 110;
                 } else {
                     $twitter_div_width = 70;
-                }           
+                }
                 $twitter = '<div class="jeasocial_button jeasocial_twitter" style="float:'.$this->_params->get('float').'; width:'.$twitter_div_width.'px;">';
                     $twitter .= '<a href="http://twitter.com/share?url='.$url2.'" class="twitter-share-button" data-text="'.$row->title.':" data-count="'.$this->_params->get('twitter_style').'" data-via="'.$this->_params->get('twitter_account').'" data-related="'.$this->_params->get('twitter_account2').'">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>';
                 $twitter .= '</div>';
             }
             // google+
             if ( $this->_params->get('gplus_active') ) {
-                // include js callback in head section  
+                // include js callback in head section
                 $document =& JFactory::getDocument();
                 $document->addScript('http://apis.google.com/js/plusone.js');
                 // beta: automatic gplus language
@@ -127,9 +128,9 @@ class plgJeaSocial extends JPlugin
                 			'.$langCode.'
                             gapi.plusone.render("plusone-div",
                               {
-                               "size": "'.$this->_params->get('gplus_style','medium').'", 
-                               "annotation": "'.$this->_params->get('gplus_annotation','bubble').'",    
-                               "expandTo": "'.$this->_params->get('gplus_expandto','bottom').'", 
+                               "size": "'.$this->_params->get('gplus_style','medium').'",
+                               "annotation": "'.$this->_params->get('gplus_annotation','bubble').'",
+                               "expandTo": "'.$this->_params->get('gplus_expandto','bottom').'",
                                "width": "'.$this->_params->get('gplus_width','90').'",
                                "href": "'.$url2.'"
                             });
@@ -152,7 +153,7 @@ class plgJeaSocial extends JPlugin
                     $digg .= '<a class="DiggThisButton '.$this->_params->get('digg_style','DiggCompact').'" href="http://digg.com/submit?url='.$url2.'&amp;title='.$row->title.'"></a>';
                 $digg .= '</div>';
             }
-            // linkedin 
+            // linkedin
             if ($this->_params->get('linkedin_active')) {
                 if ( $this->_params->get('linkedin_style') == 'right') {
                     $linkedin_div_width = 110;
@@ -165,11 +166,25 @@ class plgJeaSocial extends JPlugin
                 						';
                 $linkedin .= '</div>';
             }
+            // pinterest
+            if ($this->_params->get('pint_active')) {
+                // assign div with based on button style
+                if ( $this->_params->get('pint_style') == 'horizontal') {
+                    $pint_div_width = 110;
+                } else {
+                    $pint_div_width = 70;
+                }
+                $pinterest = '<div class="jeasocial_button jeasocial_linkedin" style="float:'.$this->_params->get('float').'; width: '.$linkedin_div_width.'px;">';
+                    $pinterest .= '<script type="text/javascript" src="//assets.pinterest.com/js/pinit.js"></script>';
+                    $pinterest .= '<a href="http://pinterest.com/pin/create/button/?url='.$url2.'" class="pin-it-button" count-layout="'.$this->_params->get('pint_style').'"><img border="0" src="//assets.pinterest.com/images/PinExt.png" title="Pin It" /></a>';
+                $pinterest .= '</div>';
+                
+            }
             // complete content
-            $bar = $twitter . $like . $gplus . $digg . $linkedin;
+            $bar = $twitter . $like . $gplus . $digg . $linkedin . $pinterest;
             // format content
             $bar = '<div class="jeasocial">'.$bar.'<div style="clear:both;"></div></div>';
             echo $bar;
-        } 
+        }
     }
 }

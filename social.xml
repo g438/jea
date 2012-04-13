@@ -1,18 +1,125 @@
 <?xml version="1.0" encoding="utf-8"?>
-<install version="1.5" type="plugin" group="jea">
+<extension version="2.5" type="plugin" group="jea">
     <name>JEA - Social</name>
     <author>Roberto Segura</author>
-    <creationDate>Oct 2011</creationDate>
-    <copyright>Copyright (C) 2011 Roberto Segura.</copyright>
+    <creationDate>Apr 2012</creationDate>
+    <copyright>Copyright (C) 2011-2012 Roberto Segura.</copyright>
     <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
     <authorEmail>turmis.mistermod@gmail.com</authorEmail>
-    <authorUrl>www.domatix.com</authorUrl>
-    <version>1.1</version>
+    <authorUrl>www.phproberto.com</authorUrl>
+    <version>2.0</version>
     <description>Show bar to share properties on social networks.</description>
     
     <files>
         <filename plugin="social">social.php</filename>
     </files>
+	<config>
+		<fields name="params">
+		    <fieldset name="basic">
+	            <field type="spacer" label="&lt;b&gt;Global:&lt;/b&gt;" />
+				<field name="position" type="list" default="1" label="Position" description="Social bar can be displayed above text, below text or in both positions">
+				    <option value="0">Below Content</option>
+				    <option value="1">Above Content</option>
+				    <option value="2">Both</option>
+				</field>
+		        <field name="float" type="list" default="left" label="Button Align" description="">
+		            <option value="right">Right</option>
+		            <option value="left">Left</option>
+		        </field>
+		        <field name="@spacer" type="spacer" default="" label="" description="" />
+		        <field type="spacer" label="&lt;b&gt;Digg:&lt;/b&gt;" />
+		        <field name="digg_active" type="list" default="1" label="Digg button" description="">
+		            <option value="1">Enabled</option>
+		            <option value="0">Disabled</option>
+		        </field>    
+		        <field name="digg_style" type="list" default="DiggCompact" label="Digg style" description="Select the button style">
+		            <option value="DiggWide">wide</option>
+		            <option value="DiggMedium">medium</option>
+		            <option value="DiggCompact">compact</option>
+		            <option value="DiggIcon">icon</option>
+		        </field>    
+		        <field name="@spacer" type="spacer" default="" label="" description="" />
+		        <field type="spacer" label="&lt;b&gt;Facebook:&lt;/b&gt;" />
+		        <field name="like" type="list" default="1" label="Facebook button" description="">
+		            <option value="1">Enabled</option>
+		            <option value="0">Disabled</option>
+		        </field>    
+		        <field name="like_style" type="list" default="button_count" label="Facebook style" description="">
+		            <option value="button_count">button_count</option>
+		            <option value="standard">standard</option>
+		        </field>        
+		        <field name="like_width" type="text" size="4" default="90" label="Facebook Like Width pixels" description="" />
+		        <field name="like_height" type="text" size="4" default="20" label="Facebook Like Height pixels" description="" />       
+		        <field name="like_verb" type="list" default="like" label="Facebook Like text to display" description="">
+		            <option value="like">Like</option>
+		            <option value="recommend">Recommend</option>
+		        </field>        
+		        <field name="like_color_scheme" type="list" default="light" label="Facebook Like color scheme" description="">
+		            <option value="light">light</option>
+		            <option value="dark">dark</option>
+		        </field>    
+		        <field name="@spacer" type="spacer" default="" label="" description="" />
+		        <field type="spacer" label="&lt;b&gt;Google+:&lt;/b&gt;" />
+		        <field name="gplus_active" type="list" default="1" label="Google+ button" description="Activate / deactivate the Google+ button">
+		            <option value="1">Enabled</option>
+		            <option value="0">Disabled</option>
+		        </field>
+		        <field name="gplus_style" type="list" default="medium" label="Google+ style" description="Select the button style">
+		            <option value="small">Small (15px)</option>
+		            <option value="medium">Medium (20px)</option>
+		            <option value="standard">Standard (24px)</option>
+		            <option value="tall">Vertical (60px)</option>
+		        </field>    
+		        <field name="gplus_annotation" type="list" default="bubble" label="Google+ annotation" description="Select the annotation text style">
+		            <option value="bubble">Bubble</option>
+		            <option value="inline">Inline</option>
+		            <option value="none">None</option>
+		        </field>  
+		        <field name="gplus_expandto" type="list" default="bottom" label="Google+ expandTo" description="Preferred position in which to display hover and confirmation bubbles, relative to the button.">
+		            <option value="top">top</option>
+		            <option value="right">right</option>
+		            <option value="bottom">bottom</option>
+		            <option value="left">left</option>
+		        </field>  
+		        <field name="gplus_width" type="text" size="4" default="90" label="Google+ Width in pixels" description="Set the width of the Google+ div " />
+		        <field name="@spacer" type="spacer" default="" label="" description="" />
+		        <field type="spacer" label="&lt;b&gt;Linkedin:&lt;/b&gt;" />
+		        <field name="linkedin_active" type="list" default="1" label="Linkedin button" description="">
+		            <option value="1">Enabled</option>
+		            <option value="0">Disabled</option>
+		        </field>
+		        <field name="linkedin_style" type="list" default="horizontal" label="Linkedin style" description="">
+		            <option value="right">Horizontal Count</option>
+		            <option value="top">Vertical Count</option>
+		            <option value="none">No Count</option>
+		        </field>
+		        <field name="@spacer" type="spacer" default="" label="" description="" />
+		        <field type="spacer" label="&lt;b&gt;Twitter:&lt;/b&gt;" />
+		        <field name="twitter_active" type="list" default="1" label="Twitter button" description="">
+		            <option value="1">Enabled</option>
+		            <option value="0">Disabled</option>
+		        </field>
+		        <field name="twitter_style" type="list" default="horizontal" label="Twitter style" description="">
+		            <option value="horizontal">Horizontal Count</option>
+		            <option value="vertical">Vertical Count</option>
+		            <option value="none">No Count</option>
+		        </field>
+		        <field name="twitter_account" type="text" size="20" default="" label="Twitter Account" description="This user will be @ mentioned in the suggested Tweet" />    
+		        <field name="twitter_account2" type="text" size="20" default="" label="Twitter Account Related" description="" />
+		        <field type="spacer" label="&lt;b&gt;Pinterest:&lt;/b&gt;" />
+		        <field name="pint_active" type="list" default="1" label="Pinterest button" description="">
+		            <option value="1">Enabled</option>
+		            <option value="0">Disabled</option>
+		        </field>
+		        <field name="pint_style" type="list" default="horizontal" label="Pinterest style" description="">
+		            <option value="horizontal">Horizontal Count</option>
+		            <option value="vertical">Vertical Count</option>
+		            <option value="none">No Count</option>
+		        </field>
+		    </fieldset>
+	  </fields>
+	</config>
+	<!-- joomla 1.5 -->
     <params>
         <param type="spacer" default="&lt;b&gt;Global:&lt;/b&gt;" />
         <param name="position" type="list" default="1" label="Position" description="Social bar can be displayed above text, below text or in both positions">
@@ -106,4 +213,4 @@
         <param name="twitter_account2" type="text" size="20" default="" label="Twitter Account Related" description="" />           
     </params>   
     
-</install>
+</extension>
