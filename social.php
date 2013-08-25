@@ -87,7 +87,7 @@ class plgJeaSocial extends JPlugin
             $like = '';  $twitter = '';  $gplus = '';  $digg = ''; $linkedin = '';
 
             // build the property url
-            $uri =& JFactory::getURI();
+            $uri = JFactory::getURI();
             $row->slug = $row->alias ? ($row->id . ':' . $row->alias) : $row->id;
             $url = $uri->toString(array('scheme','host', 'port')).JRoute::_('index.php?option=com_jea&view=properties&id='.$row->slug);
 
@@ -113,10 +113,10 @@ class plgJeaSocial extends JPlugin
             // google+
             if ( $this->_params->get('gplus_active') ) {
                 // include js callback in head section
-                $document =& JFactory::getDocument();
+                $document = JFactory::getDocument();
                 $document->addScript('http://apis.google.com/js/plusone.js');
                 // beta: automatic gplus language
-                $lang = &JFactory::getLanguage();
+                $lang = JFactory::getLanguage();
                 if ( $langTag = explode('-',$lang->getTag()) ) {
                     $langCode = 'window.___gcfg = {lang: "'.$langTag[0].'"};';
                 } else {
