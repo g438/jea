@@ -44,7 +44,7 @@ class plgJeaSocial extends JPlugin
     {
         parent::__construct( $subject, $params );
         // load plugin parameters
-        $plugin =& JPluginHelper::getPlugin('jea', 'social');
+        $plugin = JPluginHelper::getPlugin('jea', 'social');
         $this->_params = new JRegistry($params['params']);
         $this->_position = ($this->_params->get('position'));
     }
