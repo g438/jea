@@ -94,8 +94,20 @@ class plgJeaSocial extends JPlugin
             $url2 = urlencode($url);
             // facebook
             if ($this->_params->get('like')) {
-                $like = '<div id="fb-root" class="jeasocial_button jeasocial_facebook" style="float:'.$this->_params->get('float').'; width:'.$this->_params->get('like_width').'px; height:'.$this->_params->get('like_height').'px;">';
-                    $like .= '<iframe src="http://www.facebook.com/plugins/like.php?href='.$url2 .'&amp;layout='.$this->_params->get('like_style').'&amp;width='.$this->_params->get('like_width').'&amp;show_faces=false&amp;action='.$this->_params->get('like_verb').'&amp;colorscheme='.$this->_params->get('like_color_scheme').'&amp;height='.$this->_params->get('like_height').'" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:'.$this->_params->get('like_width').'px; height:'.$this->_params->get('like_height').'px;" allowTransparency="true"></iframe>';
+                $like = '<div id="fb-root"></div>';
+                $document = JFactory::getDocument();
+                // Add Javascript
+                $document->addScriptDeclaration('
+                (function(d, s, id) {
+                var js, fjs = d.getElementsByTagName(s)[0];
+                if (d.getElementById(id)) return;
+                js = d.createElement(s); js.id = id;
+                js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.3";
+                fjs.parentNode.insertBefore(js, fjs);
+                }(document, \'script\', \'facebook-jssdk\'));
+                ');
+                
+                $like = '<div data-href='.$url.' class="fb-like jeasocial_button jeasocial_facebook" style="float:'.$this->_params->get('float').'; width:'.$this->_params->get('like_width').'px;" data-width="'.$this->_params->get('like_width').'" data-layout="'.$this->_params->get('like_style').'" data-action="'.$this->_params->get('like_verb').'" data-show-faces="false" data-share="'.$this->_params->get('include_share').'" data-colorscheme="'.$this->_params->get('like_color_scheme').'">';
                 $like .= '</div>';
             }
             // twitter

@@ -44,12 +44,13 @@
 		            <option value="1">Enabled</option>
 		            <option value="0">Disabled</option>
 		        </field>    
-		        <field name="like_style" type="list" default="button_count" label="Facebook style" description="">
-		            <option value="button_count">button_count</option>
+		        <field name="like_style" type="list" default="button_count" label="Layout" description="">
 		            <option value="standard">standard</option>
+		            <option value="box_count">box_count</option>
+		            <option value="button_count">button_count</option>
+		            <option value="button">button</option>
 		        </field>        
-		        <field name="like_width" type="text" size="4" default="90" label="Facebook Like Width pixels" description="" />
-		        <field name="like_height" type="text" size="4" default="20" label="Facebook Like Height pixels" description="" />       
+		        <field name="like_width" type="text" size="4" default="90" label="Facebook Like Width pixels" description="" />      
 		        <field name="like_verb" type="list" default="like" label="Facebook Like text to display" description="">
 		            <option value="like">Like</option>
 		            <option value="recommend">Recommend</option>
@@ -57,7 +58,11 @@
 		        <field name="like_color_scheme" type="list" default="light" label="Facebook Like color scheme" description="">
 		            <option value="light">light</option>
 		            <option value="dark">dark</option>
-		        </field>    
+		        </field>   
+		        <field name="include_share" type="list" default="true" label="Include Share Button" description="">
+		            <option value="true">Yes</option>
+		            <option value="false">No</option>
+		        </field>  	         
 		        <field name="@spacer" type="spacer" default="" label="" description="" />
 		        <field type="spacer" label="&lt;b&gt;Google+:&lt;/b&gt;" />
 		        <field name="gplus_active" type="list" default="1" label="Google+ button" description="Activate / deactivate the Google+ button">
